@@ -168,14 +168,8 @@ Register the new router in app.js.
 
 
 
-👥 Contributors
-Developer: Majd Ghane
-Instructor: Dr. [Instructor Name]
-Course: CSIS228 — Data Structures / Web Development
-University: University of Balamand
-
 📦 Version
-v1.0.0 – Final Submission (2025)
+v1.0.0 – Final Submission 
 Includes:
 
 
@@ -193,8 +187,3 @@ Postman workspace for testing
 
 Fully documented and commented source code
 
-
-
----
-
-Would you like me to include your **Postman collection summary section** (with route names and request examples per entity) formatted for the same README — or keep this concise version?
