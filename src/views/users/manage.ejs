@@ -1,0 +1,186 @@
+<a href="/admin" class="back-link">← Back to Admin Menu</a>
+
+<div class="admin-page">
+
+  <h2>User Management</h2>
+
+  <!-- USER LIST -->
+  <div class="user-list">
+    <table class="apex-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Coins</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.user_id %></td>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.coins %></td>
+            <td><%= user.created_at %></td>
+            <td>
+              <a class="btn view" href="/api/users/<%= user.user_id %>">View</a>
+            
+
+              <form
+                method="POST"
+                action="/api/users/<%= user.user_id %>/delete"
+                style="display:inline;"
+              >
+                <button class="btn delete" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <h3>Create New User</h3>
+
+  <form action="/api/users" method="POST" class="create-form-row">
+    <div class="field">
+      <label>Username</label>
+      <input type="text" name="username" required>
+    </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" name="email" required>
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" required>
+    </div>
+
+    <div class="field small">
+      <label>Coins</label>
+      <input type="number" name="coins" value="0" min="0">
+    </div>
+
+    <div class="field button-field">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn create">Create User</button>
+    </div>
+  </form>
+
+</div>
+
+<style>
+ 
+/* BACK LINK */
+.back-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #8d4dff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* ADMIN PAGE FIX — TRANSPARENT GLASS */
+.admin-page {
+  padding: 25px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.45);
+  background-image: url("/img/background3.jpg");
+  backdrop-filter: blur(8px);
+  border: 2px solid #220261;
+  box-shadow: 0 0 18px rgba(0,0,0,0.6);
+}
+
+.admin-page h2,
+.admin-page h3,
+.admin-page label { 
+  color: white; 
+}
+
+/* TABLE */
+.user-list { overflow-x: auto; }
+
+.apex-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  backdrop-filter: blur(4px);
+}
+
+/* HEADER FIXED */
+.apex-table th {
+  background: rgba(34, 2, 97, 0.85);
+  color: white;
+  text-transform: uppercase;
+  border: 1px solid #220261;
+  padding: 10px;
+}
+
+/* TRANSPARENT CELLS */
+.apex-table td {
+  background: rgba(0,0,0,0.55);
+  border: 1px solid #220261;
+  padding: 10px;
+  color: #f2f2f2;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 2px;
+  transition: 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.view  { background: #3f8cff; color: white; }
+.btn.delete{ background: #DA292A; color: white; }
+.btn.create{ background: #4CAF50; color: white; }
+
+.btn:hover {
+  transform: scale(1.07);
+  filter: brightness(1.05);
+}
+
+/* FORM FIX */
+.create-form-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.create-form-row .field { 
+  display: flex; 
+  flex-direction: column; 
+  min-width: 160px; 
+}
+
+.create-form-row input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #220261;
+  background: rgba(0,0,0,0.45);
+  color: white;
+}
+
+.button-field { min-width: 130px; }
+
+@media (max-width: 900px) {
+  .create-form-row { flex-direction: column; }
+  .button-field { align-self: flex-start; }
+}
+</style>

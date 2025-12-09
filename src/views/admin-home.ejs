@@ -1,0 +1,105 @@
+<div class="admin-wrapper">
+<div class="header-box">
+  <h2 class="admin-title">Welcome to the Admin Dashboard</h2>
+  <p class="select-text">Select a section to manage:</p>
+</div>
+
+  <div class="admin-grid">
+
+    <a href="/api/users/manage" class="admin-card">
+      <h3>Users</h3>
+      <p>Create, edit and delete player accounts.</p>
+    </a>
+
+    <a href="/api/items/manage" class="admin-card">
+      <h3>Items</h3>
+      <p>Manage weapons, heirlooms and other items.</p>
+    </a>
+
+    <a href="/api/packs/manage" class="admin-card">
+      <h3>Packs</h3>
+      <p>Configure pack types, prices and rewards.</p>
+    </a>
+
+    <a href="/api/legends/manage" class="admin-card">
+      <h3>Legends & Abilities</h3>
+      <p>Edit legend info and their abilities.</p>
+    </a>
+
+  </div>
+
+  <div class="logout-wrapper">
+    <a href="/admin/logout" class="logout-btn">Logout</a>
+  </div>
+
+</div>
+
+<style>
+  .header-box {
+  background: rgba(0, 0, 0, 0.5); 
+  padding: 20px 30px;
+  border-radius: 12px;
+  width: fit-content;
+  margin: 0 auto 25px auto;
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+}
+
+  body {
+    background: url("/img/admins.png") center/cover no-repeat fixed;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+
+  .admin-wrapper {
+
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .admin-title {
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px black;
+  }
+
+  .select-text {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #eee;
+  }
+
+  .admin-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  .admin-card {
+    width: 250px;
+    background: rgba(0,0,0,0.75);
+    border: 2px solid #fc4545;
+    border-radius: 14px;
+    padding: 20px;
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 0 12px rgba(0,0,0,0.9);
+    transition: 0.2s ease;
+  }
+
+  .admin-card:hover {
+    transform: translateY(-6px);
+    border-color: #ff1909;
+    box-shadow: 0 0 25px rgba(253, 84, 84, 0.8);
+  }
+
+  .logout-wrapper {
+    margin-top: 40px;
+  }
+
+  .logout-btn {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff4b4b;
+  }
+</style>

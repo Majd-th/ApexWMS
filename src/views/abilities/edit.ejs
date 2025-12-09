@@ -1,0 +1,27 @@
+<h2>Edit Ability</h2>
+
+<form
+  action="/api/abilities/manage/<%= legend_id %>/<%= ability.ability_id %>/edit"
+  method="POST"
+  class="create-form"
+>
+  <label>Name</label>
+  <input
+    type="text"
+    name="ability_name"
+    value="<%= ability.ability_name %>"
+    required
+  />
+
+  <label>Type</label>
+  <input
+    type="text"
+    name="ability_type"
+    value="<%= ability.ability_type %>"
+  />
+
+  <label>Description</label>
+  <textarea name="description"><%= ability.description %></textarea>
+
+  <button type="submit" class="btn create">Save Changes</button>
+</form>

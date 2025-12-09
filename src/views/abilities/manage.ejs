@@ -1,0 +1,224 @@
+<a href="/admin" class="back-link">← Back to Admin Menu</a>
+<a href="/api/Legends/manage" class="back-btn">← Back to Legends Management</a>
+<style>
+  .back-btn {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #f8f7ff;
+    background: rgba(21, 4, 181, 0.7);
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s ease;
+  }
+
+  .back-btn:hover {
+    background: #1d0246;
+    color: black;
+    transform: scale(1.05);
+  }
+</style>
+<div class="admin-page">
+  <h2>Abilities Management – Legend #<%= legend_id %></h2>
+
+  <!-- ABILITIES TABLE -->
+  <div class="ability-list">
+    <table class="apex-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Ability Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% abilities.forEach(a => { %>
+          <tr>
+            <td><%= a.ability_id %></td>
+            <td><%= a.ability_name %></td>
+            <td><%= a.ability_type %></td>
+            <td class="description-cell"><%= a.description %></td>
+            <td>
+              <!-- later you can make edit form; for now just buttons -->
+              <form method="POST"
+                    action="/api/abilities/manage/<%= legend_id %>/<%= a.ability_id %>/delete"
+                    style="display:inline;">
+                <button type="submit" class="btn delete">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CREATE NEW ABILITY -->
+  <h3>Add Ability to Legend</h3>
+
+  <form class="create-form-row"
+        action="/api/abilities/manage/<%= legend_id %>"
+        method="POST">
+
+    <div class="field">
+      <label>Ability Name</label>
+      <input type="text" name="ability_name" required>
+    </div>
+
+    <div class="field small">
+      <label>Type</label>
+      <input type="text"
+             name="ability_type"
+             placeholder="Tactical / Ultimate / Passive"
+             required>
+    </div>
+
+    <div class="field description-field">
+      <label>Description</label>
+      <input type="text" name="description" required>
+    </div>
+
+    <div class="field button-field">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn create">Add Ability</button>
+    </div>
+
+  </form>
+</div>
+
+<style>
+  /* back link */
+  .back-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #5b0bb5;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  /* BIGGER main card with background image */
+  .admin-page {
+    padding: 35px 40px 45px;
+    border-radius: 12px;
+    background-image: url("/img/abilities.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+    min-height: 650px;
+  }
+
+  .admin-page h2,
+  .admin-page h3,
+  .admin-page label {
+    color: #fff;
+  }
+
+  .ability-list {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  .apex-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .apex-table th,
+  .apex-table td {
+    border: 1px solid rgba(218, 41, 42, 0.7);
+    padding: 14px;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .apex-table th {
+    background: rgba(218, 41, 42, 0.9);
+    color: #1A1A1A;
+  }
+
+  .apex-table td {
+    background: rgba(0, 0, 0, 0.78);
+    color: #fff;
+  }
+
+  .description-cell {
+    text-align: left;
+    max-width: 550px;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .btn {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    transition: 0.2s;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .btn.edit   { background: #ffd23f; color: black; }
+  .btn.delete { background: #DA292A; color: white; }
+  .btn.create { background: #4CAF50; color: white; }
+
+  .btn:hover {
+    transform: scale(1.07);
+    filter: brightness(1.05);
+  }
+
+  /* bigger horizontal form */
+  .create-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 18px;
+    align-items: flex-end;
+  }
+
+  .create-form-row .field {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+  }
+
+  .create-form-row .field.small {
+    max-width: 220px;
+  }
+
+  .create-form-row .description-field {
+    flex: 2;
+    min-width: 320px;
+  }
+
+  .create-form-row input {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+  }
+
+  .button-field {
+    min-width: 160px;
+  }
+
+  @media (max-width: 900px) {
+    .create-form-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .button-field {
+      align-self: flex-start;
+    }
+  }
+</style>

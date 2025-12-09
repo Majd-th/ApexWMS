@@ -1,0 +1,65 @@
+<a href="/user/items" class="back-btn">← Back</a>
+
+<style>
+  body {
+    background: url("/img/img12.jpg") center/cover fixed;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+  }
+
+  .item-box {
+    margin-top: 80px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 20px black;
+  }
+
+  .item-img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+  }
+  .back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(0,0,0,0.85);
+  padding: 10px 18px;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: 0.25s;
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+}
+
+.back-btn:hover {
+  background: black;
+  transform: scale(1.05);
+  border-color: white;
+}
+
+</style>
+
+<div class="item-box">
+  <h1><%= item.item_name %></h1>
+<%
+  const imageFile = item.item_name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    + ".png";
+%>
+
+<img class="item-img" src="/img/items/<%= imageFile %>">
+
+  <p><strong>Damage:</strong> <%= item.damage %></p>
+  <p><strong>Ammo Type:</strong> <%= item.ammo_type %></p>
+  <p><strong>Description:</strong> <%= item.description %></p>
+</div>

@@ -1,23 +1,23 @@
 import { Router } from "express";
 
 // Import repositories
-import { PackRepository } from "../domain/Repositories/PackRepository.js";
-import { UserRepository } from "../domain/Repositories/UserRepository.js";
-import { UserPacksRepository } from "../domain/Repositories/UserPacksRepository.js";
-import { UserItemsRepository } from "../domain/Repositories/UserItemsRepository.js";
-import { PackRewardRepository } from "../domain/Repositories/PackRewardRepository.js";
-import { TransactionsRepository } from "../domain/Repositories/TransactionsRepository.js";
+import { PackRepository } from "../domain/repositories/PackRepository.js";
+import { UserRepository } from "../domain/repositories/UserRepository.js";
+import { UserPacksRepository } from "../domain/repositories/UserPacksRepository.js";
+import { UserItemsRepository } from "../domain/repositories/UserItemsRepository.js";
+import { PackRewardRepository } from "../domain/repositories/PackRewardRepository.js";
+import { TransactionsRepository } from "../domain/repositories/TransactionsRepository.js";
 
 // Import service and controller
-import { PackService } from "../service/PackService.js";
-import { PackController } from "../controller/PackController.js";
+import { PackService } from "../services/PackService.js";
+import { PackController } from "../controllers/PackController.js";
 
 // Import validators
 import { idParam, upsertPacks } from "../validators/PackValidators.js";
 
 export const packRoutes = Router();
 
-// ✅ Instantiate all repositories
+// Instantiate repositories
 const packRepo = new PackRepository();
 const userRepo = new UserRepository();
 const userPacksRepo = new UserPacksRepository();
@@ -25,35 +25,55 @@ const userItemsRepo = new UserItemsRepository();
 const packRewardsRepo = new PackRewardRepository();
 const transactionsRepo = new TransactionsRepository();
 
-// ✅ Inject them into the service
+// Inject into service
 const packService = new PackService(
   packRepo,
   userRepo,
   userPacksRepo,
   userItemsRepo,
   packRewardsRepo,
- transactionsRepo
+  transactionsRepo
 );
 
-// ✅ Create the controller instance
+// Create controller
 const packController = new PackController(packService);
 
-// ===================== ROUTES ===================== //
+// =====================================================
+//            ADMIN HTML VIEWS (EJS)
+// =====================================================
 
-// 📦 CRUD
-packRoutes.get("/", packController.listPacks);                                      // GET all packs
-packRoutes.get("/:pack_id", idParam, packController.getPackById);                   // GET pack by ID
-packRoutes.post("/", upsertPacks, packController.createPack);                       // POST create new pack
-packRoutes.put("/:pack_id", [...idParam, ...upsertPacks], packController.updatePack); // PUT update existing pack
-packRoutes.delete("/:pack_id", idParam, packController.deletePack);                 // DELETE pack
+// 1. Manage page – list packs
+packRoutes.get("/manage", packController.renderManagePage);
 
-// 💰 BUY PACK — allows user to purchase using coins
+// 2. Create new pack (EJS form)
+packRoutes.post("/manage/create", upsertPacks, packController.createFromView);
+
+// 3. Edit page (form load)
+packRoutes.get("/:pack_id/edit", idParam, packController.renderEditPage);
+
+// 4. Update (EJS form submit)
+packRoutes.post(
+  "/:pack_id/edit",
+  [...idParam, ...upsertPacks],
+  packController.updateFromView
+);
+
+// 5. Delete pack (EJS button)
+packRoutes.post("/:pack_id/delete", idParam, packController.deleteFromView);
+
+// =====================================================
+//                 JSON API (CRUD)
+// =====================================================
+
+packRoutes.get("/", packController.listPacks);
+packRoutes.get("/:pack_id", idParam, packController.getPackById);
+packRoutes.post("/", upsertPacks, packController.createPack);
+packRoutes.put("/:pack_id", [...idParam, ...upsertPacks], packController.updatePack);
+packRoutes.delete("/:pack_id", idParam, packController.deletePack);
+
+// =====================================================
+//              USER ACTIONS (Buy / Open)
+// =====================================================
+
 packRoutes.post("/buy/:user_id/:pack_id", packController.buyPack);
-
-// 🎁 OPEN PACK — opens user’s pack and gives random reward
 packRoutes.post("/open/:user_id/:pack_id", packController.openPack);
-
-// ================================================== //
-
-//console.log("✅ <Pack>Routes loaded");  // Debug confirmation log
-

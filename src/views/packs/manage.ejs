@@ -1,0 +1,209 @@
+<a href="/admin" class="back-link">← Back to Admin Menu</a>
+
+<div class="admin-page">
+
+  <h2>Pack Management</h2>
+
+  <!-- PACK LIST -->
+  <div class="pack-list">
+    <table class="apex-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Pack Name</th>
+          <th>Price</th>
+          <th>Description</th>
+          <th>Actions</th>
+          <th>Rewards</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% packs.forEach(pack => { %>
+          <tr>
+            <td><%= pack.pack_id %></td>
+            <td><%= pack.pack_name %></td>
+            <td><%= pack.price %></td>
+            <td><%= pack.description %></td>
+            <td>
+              <!-- VIEW -->
+              <a class="btn view" href="/api/packs/<%= pack.pack_id %>">View</a>
+
+              <!-- EDIT -->
+              <a class="btn edit" href="/api/packs/<%= pack.pack_id %>/edit">Edit</a>
+
+              <!-- DELETE -->
+              <form
+                method="POST"
+                action="/api/packs/<%= pack.pack_id %>/delete"
+                style="display:inline;"
+              >
+                <button class="btn delete" type="submit">Delete</button>
+              </form>
+            </td>
+            <td>
+              <a class="btn rewards" href="/api/packRewards/manage/<%= pack.pack_id %>">
+                Manage Rewards
+              </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- CREATE PACK FORM (HORIZONTAL) -->
+  <h3>Create New Pack</h3>
+
+  <form action="/api/packs/manage/create" method="POST" class="create-form-row">
+    <div class="field">
+      <label>Pack Name</label>
+      <input type="text" name="pack_name" required>
+    </div>
+
+    <div class="field small">
+      <label>Price (coins)</label>
+      <input type="number" name="price" value="0" min="0" required>
+    </div>
+
+    <div class="field wide">
+      <label>Description</label>
+      <textarea name="description" rows="2"></textarea>
+    </div>
+
+    <div class="field button-field">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn create">Create Pack</button>
+    </div>
+  </form>
+
+</div>
+
+<style>
+  /* back link  */
+  .back-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #5b0bb5;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  /* main card with background image */
+  .admin-page {
+    padding: 20px 25px;
+    border-radius: 12px;
+    background-image: url("/img/backgnd.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+  }
+
+  .admin-page h2,
+  .admin-page h3,
+  .admin-page label {
+    color: #fff;
+  }
+
+  .pack-list {
+    overflow-x: auto;
+  }
+
+  .apex-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .apex-table th,
+  .apex-table td {
+    border: 1px solid rgba(218, 41, 42, 0.7);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .apex-table th {
+    background: rgba(218, 41, 42, 0.9);
+    color: #1A1A1A;
+  }
+
+  .apex-table td {
+    background: rgba(0, 0, 0, 0.55); /* transparent so background shows */
+    color: white;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    transition: 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn.view    { background: #3f8cff; color: white; }
+  .btn.edit    { background: #ffd23f; color: black; }
+  .btn.delete  { background: #DA292A; color: white; }
+  .btn.create  { background: #4CAF50; color: white; }
+  .btn.rewards { background: #8a2be2; color: white; }
+
+  .btn:hover {
+    transform: scale(1.07);
+    filter: brightness(1.05);
+  }
+
+  /* horizontal create form */
+  .create-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+    align-items: flex-end;
+  }
+
+  .create-form-row .field {
+    display: flex;
+    flex-direction: column;
+    min-width: 170px;
+  }
+
+  .create-form-row .field.small {
+    max-width: 120px;
+  }
+
+  .create-form-row .field.wide {
+    flex: 1 1 300px;
+  }
+
+  .create-form-row input,
+  .create-form-row textarea {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+  }
+
+  .button-field {
+    min-width: 140px;
+  }
+
+  @media (max-width: 900px) {
+    .create-form-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .button-field {
+      align-self: flex-start;
+    }
+  }
+</style>

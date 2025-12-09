@@ -1,0 +1,102 @@
+<style>
+  body {
+    background: url("/img/img12.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  .items-container {
+    padding-top: 40px;
+    padding-bottom: 100px;
+    text-align: center;
+  }
+
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 140px);
+    gap: 25px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .item-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: rgba(40,40,40,0.7);
+    padding: 10px;
+    color: white;
+    box-shadow: 0 0 12px rgba(0,0,0,0.6);
+    position: relative;
+    transition: 0.25s;
+  }
+
+  .item-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .locked img {
+    filter: grayscale(1) brightness(0.4);
+  }
+
+  .locked::after {
+    content: "LOCKED";
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    background: rgba(218,41,42,0.8);
+    padding: 2px;
+    border-radius: 5px;
+  }
+
+  .back-btn {
+    margin: 20px;
+    padding: 8px 14px;
+    background: #da292a;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+  }
+</style>
+
+<a href="/user/home" class="back-btn">← Back to Dashboard</a>
+
+<div class="items-container">
+  <h2>My Items</h2>
+  <p>Select an item to view details.</p>
+
+  <div class="items-grid">
+
+    <% allItems.forEach(item => { %>
+
+      <% const owned = userOwned.some(u => u.item_id === item.item_id); %>
+
+     <a href="/user/items/<%= item.item_id %>" style="text-decoration:none;">
+  <div class="item-card <%= owned ? '' : 'locked' %>">
+    <%
+  const fileName = item.item_name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")  // replace spaces & symbols with "-"
+    .replace(/^-+|-+$/g, "")      // remove starting/ending hyphens
+    + ".png";
+%>
+
+<img src="/img/items/<%= fileName %>">
+
+  </div>
+</a>
+
+
+    <% }) %>
+
+  </div>
+
+</div>

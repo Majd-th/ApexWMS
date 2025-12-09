@@ -1,0 +1,55 @@
+body {
+   background: url("/img/apex-bg.jpg");
+   background-size: cover;
+   background-position: center;
+   font-family: Arial;
+   margin: 0;
+}
+
+.apex-header {
+   background: rgba(10,10,10,0.8);
+   padding: 20px;
+   text-align: center;
+   color: white;
+   font-size: 28px;
+   font-weight: bold;
+}
+
+.home-container {
+   display: flex;
+   justify-content: center;
+   margin-top: 100px;
+}
+
+.home-box {
+   background: rgba(0,0,0,0.7);
+   padding: 30px;
+   border-radius: 10px;
+   text-align: center;
+   color: white;
+   width: 350px;
+}
+
+.btn {
+   display: block;
+   margin-top: 15px;
+   padding: 12px;
+   border-radius: 6px;
+   text-decoration: none;
+   font-weight: bold;
+   transition: 0.2s;
+}
+
+.user-btn {
+   background: #3f8cff;
+   color: white;
+}
+
+.admin-btn {
+   background: #DA292A;
+   color: white;
+}
+
+.btn:hover {
+   transform: scale(1.06);
+}

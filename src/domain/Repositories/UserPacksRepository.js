@@ -16,18 +16,25 @@ export class UserPacksRepository {
   return new UserPack(rows[0]);
 }
 
-
   // 🔍 Find all packs owned by a specific user
-  async findByUserId(user_id) {
-    const sql = `
-      SELECT * 
-      FROM user_packs
-      WHERE user_id = $1
-      ORDER BY user_pack_id DESC;                              // Orders by most recent first
-    `;
-    const { rows } = await pool.query(sql, [user_id]);         // Runs query
-    return rows.map(row => new UserPack(row));                 // Maps result rows to entities
-  }
+async findByUserId(userId) {
+  const result = await pool.query(`
+    SELECT 
+      up.user_pack_id,
+      up.user_id,
+      up.pack_id,
+      up.opened,
+      p.pack_name
+    FROM user_packs up
+    JOIN packs p ON up.pack_id = p.pack_id
+    WHERE up.user_id = $1
+    ORDER BY up.user_pack_id;
+  `, [userId]);
+
+  return result.rows;
+}
+
+  
 
   // 🔍 Check if a user already owns a specific pack
   async checkUserOwnsPack(user_id, pack_id){

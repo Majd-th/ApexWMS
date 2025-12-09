@@ -19,10 +19,12 @@ export const upsertUsers = [
     .isLength({ min: 1, max: 255 })
     .withMessage("email should be a string between 1–255 characters"),
 
-  body("passwordHash")
-    .isString()
-    .isLength({ min: 1, max: 255 })
-    .withMessage("password should be a string between 1–255 characters"),
+  body("password")
+  .optional({ nullable: true })
+  .isString()
+  .isLength({ min: 6 })
+  .withMessage("Password must be at least 6 characters long"),
+
 
   body("coins")
     .isInt({ min: 0 })

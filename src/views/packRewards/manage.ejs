@@ -1,0 +1,211 @@
+<a href="/admin" class="back-link">← Back to Admin Menu</a>
+<a href="/api/packs/manage" class="back-btn">← Back to Pack Management</a>
+
+<div class="admin-page">
+
+  <h2>Manage Rewards for Pack #<%= pack_id %></h2>
+
+  <!-- REWARDS LIST -->
+  <div class="rewards-list">
+    <table class="apex-table">
+      <thead>
+        <tr>
+          <th>Reward ID</th>
+          <th>Item ID</th>
+          <th>Legend ID</th>
+          <th>Drop Rate</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% rewards.forEach(r => { %>
+          <tr>
+            <td><%= r.reward_id %></td>
+            <td><%= r.item_id %></td>
+            <td><%= r.legend_id %></td>
+            <td><%= r.drop_rate %></td>
+            <td>
+              <!-- DELETE REWARD -->
+              <form
+                method="POST"
+                action="/api/packRewards/manage/<%= pack_id %>/<%= r.reward_id %>/delete"
+                style="display:inline;"
+              >
+                <button class="btn delete" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ADD NEW REWARD (HORIZONTAL FORM) -->
+  <h3>Add Reward to Pack</h3>
+
+  <form
+    class="create-form-row"
+    action="/api/packRewards/manage/<%= pack_id %>/create"
+    method="POST"
+  >
+    <div class="field small">
+      <label>Item ID (optional)</label>
+      <input type="number" name="item_id" min="1" placeholder="e.g. 5">
+    </div>
+
+    <div class="field small">
+      <label>Legend ID (optional)</label>
+      <input type="number" name="legend_id" min="1" placeholder="e.g. 2">
+    </div>
+
+    <div class="field small">
+      <label>Drop Rate</label>
+      <input type="number" step="0.0001" name="drop_rate" required placeholder="0.10">
+    </div>
+
+    <div class="field button-field">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn create">Add Reward</button>
+    </div>
+  </form>
+
+</div>
+
+<style>
+  /* back links */
+  .back-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #5b0bb5;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  .back-btn {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 15px;
+    color: #9d7db3;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s ease;
+  }
+
+  .back-btn:hover {
+    background: #dbcae6;
+    color: black;
+    transform: scale(1.05);
+  }
+
+  /* main card */
+  .admin-page {
+    padding: 20px 25px;
+    border-radius: 12px;
+    background-image: url("/img/rewards.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+  }
+
+  .admin-page h2,
+  .admin-page h3,
+  .admin-page label {
+    color: #fff;
+  }
+
+  .rewards-list {
+    overflow-x: auto;
+  }
+
+  .apex-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .apex-table th,
+  .apex-table td {
+    border: 1px solid rgba(218, 41, 42, 0.7);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .apex-table th {
+    background: rgba(218, 41, 42, 0.9);
+    color: #1A1A1A;
+  }
+
+  .apex-table td {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    transition: 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn.delete { background: #DA292A; color: white; }
+  .btn.create { background: #4CAF50; color: white; }
+
+  .btn:hover {
+    transform: scale(1.07);
+    filter: brightness(1.05);
+  }
+
+  .create-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+    align-items: flex-end;
+  }
+
+  .create-form-row .field {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+  }
+
+  .create-form-row .field.small {
+    max-width: 160px;
+  }
+
+  .create-form-row input {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+  }
+
+  .button-field {
+    min-width: 150px;
+  }
+
+  @media (max-width: 900px) {
+    .create-form-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .button-field {
+      align-self: flex-start;
+    }
+  }
+</style>

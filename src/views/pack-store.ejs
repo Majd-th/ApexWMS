@@ -1,0 +1,112 @@
+<a href="/user/home" class="back-btn">← Back to Dashboard</a>
+<h1 style="text-align:center;">Apex Pack Store</h1>
+<h3 style="text-align:center;">Select a pack to purchase</h3>
+
+<h2 style="text-align:center; color:#ffd900cd;">
+  Coins: <%= user.coins %> 🪙
+</h2>
+
+<style>
+  body {
+    background: url("/img/store1.jpg") no-repeat center center fixed;
+    background-size: cover;
+    padding: 30px;
+    color: white;
+    font-family: Arial;
+  }
+
+  .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background: #DA292A;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 0 5px black;
+  }
+  .back-btn:hover {
+    background: #b71f20;
+  }
+
+  /* Center the packs */
+  .pack-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .pack-card {
+    background: rgba(30,30,30,0.85);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    width: 260px;
+    box-shadow: 0 0 10px black;
+    transition: .2s;
+  }
+
+  .pack-card:hover {
+    transform: scale(1.05);
+  }
+
+  .pack-card img {
+    width: 200px;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+
+  button {
+    padding: 10px 15px;
+    background: #DA292A;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #b71f20;
+  }
+</style>
+
+
+<% if (success) { %>
+  <div style="background:#28a745; padding:10px; border-radius:5px; margin-bottom:20px; text-align:center;">
+    <%= success %>
+  </div>
+<% } %>
+
+<% if (error) { %>
+  <div style="background:#da292a; padding:10px; border-radius:5px; margin-bottom:20px; text-align:center;">
+    <%= error %>
+  </div>
+<% } %>
+
+<div class="pack-container">
+
+  <% packs.forEach(pack => { %>
+    <div class="pack-card">
+
+      
+<img src="/img/packs/<%= pack.imageFile %>" alt="Pack Image">
+
+
+      <h3><%= pack.pack_name %></h3>
+      <p><%= pack.description %></p>
+      <strong>Price: <%= pack.price %> coins</strong>
+
+      <form action="/user/packs/buy/<%= pack.pack_id %>" method="POST">
+        <button type="submit">BUY PACK</button>
+      </form>
+    </div>
+  <% }) %>
+
+</div>

@@ -1,0 +1,142 @@
+<style>
+  body {
+    background: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  /* Fade in screen */
+  .fade-in {
+    animation: fadeIn 1.2s ease forwards;
+    opacity: 0;
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .opening-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* PACK ANIMATION (Bigger now) */
+  .pack-image img {
+    width: 280px;        /* was 180px */
+    height: auto;
+    animation: shake 0.8s ease-in-out 2;
+    filter: drop-shadow(0 0 18px rgba(255,0,0,0.4));
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0px); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0px); }
+  }
+
+  /* Reward reveal animation */
+  .item-reveal {
+    opacity: 0;
+    transform: scale(0.7);
+    animation: reveal 1.2s ease forwards;
+    animation-delay: 1s;
+  }
+
+  @keyframes reveal {
+    0% { opacity: 0; transform: scale(0.7); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Glow box around reward */
+  .rarity-glow {
+    width: 380px;               /* bigger */
+    height: 380px;
+    border-radius: 25px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    box-shadow:
+      0 0 25px rgba(255,255,255,0.15),
+      0 0 45px rgba(255,0,0,0.2);
+    padding: 20px;
+  }
+
+  .item-img {
+    width: 330px;               /* BIGGER ITEM */
+    height: 330px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 30px rgba(255,255,255,0.2));
+  }
+
+  .open-title {
+    margin-top: 30px;
+    font-size: 34px;
+    opacity: 0;
+    animation: titleFade 1.5s ease forwards;
+    animation-delay: 0.8s;
+  }
+
+  @keyframes titleFade {
+    to { opacity: 1; }
+  }
+
+  /* Back Button */
+  .packs-btn {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: #DA292A;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    transition: 0.2s;
+  }
+  .packs-btn:hover {
+    transform: translateX(-50%) scale(1.05);
+    background: #b71f20;
+  }
+</style>
+
+<!-- ====================== HTML ======================= -->
+
+<div class="opening-container fade-in">
+
+  <!-- Pack Animation -->
+  <div class="pack-image">
+    <img src="/img/packs/pack.png">
+  </div>
+
+  <!-- Title -->
+  <div class="open-title">
+    🎁 Your Reward Is…
+  </div>
+
+ <!-- Reward Box -->
+<div class="rarity-glow item-reveal">
+
+  <% 
+    const fileName = reward.item_name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      + ".png";
+  %>
+
+  <img class="item-img" src="/img/items/<%= fileName %>">
+
+</div>
+
+<!-- Back to packs -->
+<a href="/user/packs" class="packs-btn">← Back to My Packs</a>

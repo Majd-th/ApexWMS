@@ -3,6 +3,9 @@ import { Items } from "../entities/Items.js";   // Import entity structure for i
 
 // Repository managing CRUD operations for the "items" table
 export class ItemsRepository {
+    constructor() {
+    this.pool = pool;   // FIX: attach the database connection
+  }
 
   // 🟢 CREATE a new item in the database
   async save(item_name, category, subcategory, legend_id, damage, ammo_type, description) {
@@ -17,18 +20,44 @@ export class ItemsRepository {
   }
 
   // 🟡 UPDATE an existing item
-  async update(item_id, { item_name, category, subcategory, legend_id, damage, ammo_type, description }) {
-    const sql = `
-      UPDATE items
-      SET item_name = $1, category = $2, subcategory = $3, legend_id = $4,
-          damage = $5, ammo_type = $6, description = $7
-      WHERE item_id = $8
-      RETURNING *;
-    `;
-    const values = [item_name, category, subcategory, legend_id, damage, ammo_type, description, item_id];
-    const { rows } = await pool.query(sql, values);
-    return rows[0] ? new Items(rows[0]) : null;  // Return updated item or null if not found
-  }
+ async update(id, data) {
+  const clean = {
+    item_name: data.item_name,
+    category: data.category,
+    subcategory: data.subcategory,
+    legend_id: data.legend_id === "" ? null : Number(data.legend_id),
+    damage: data.damage === "" ? null : Number(data.damage),
+    ammo_type: data.ammo_type,
+    description: data.description
+  };
+
+  const query = `
+    UPDATE items
+    SET item_name = $1,
+        category = $2,
+        subcategory = $3,
+        legend_id = $4,
+        damage = $5,
+        ammo_type = $6,
+        description = $7
+    WHERE item_id = $8
+    RETURNING *;
+  `;
+
+  const values = [
+    clean.item_name,
+    clean.category,
+    clean.subcategory,
+    clean.legend_id,
+    clean.damage,
+    clean.ammo_type,
+    clean.description,
+    id
+  ];
+
+  const result = await this.pool.query(query, values);
+  return result.rows[0];
+}
 
   // 🔴 DELETE an item by ID
   async deleteById(item_id) {

@@ -1,7 +1,7 @@
 import { Router } from "express";                               // Express Router import
-import { AdminsRepository } from "../domain/Repositories/AdminsRepository.js";  // Admin repository
-import { AdminsService } from "../service/AdminsService.js";                    // Handles admin logic
-import { AdminsController } from "../controller/AdminsController.js";           // Routes → Service connector
+import { AdminsRepository } from "../domain/repositories/AdminsRepository.js";  // Admin repository
+import { AdminsService } from "../services/AdminsService.js";                    // Handles admin logic
+import { AdminsController } from "../controllers/AdminsController.js";           // Routes → Service connector
 import { idParam, upsertAdmins } from "../validators/AdminsValidators.js";      // Validation middleware
 
 const repo = new AdminsRepository();                            // Repository instance for DB communication

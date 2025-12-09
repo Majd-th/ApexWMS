@@ -1,0 +1,88 @@
+
+<div class="auth-container">
+  <h2>Create Your ApexWMS Account</h2>
+  <p>Fill the form below to register as a new user.</p>
+
+  <% if (error) { %>
+    <div class="error-box"><%= error %></div>
+  <% } %>
+
+  <form class="auth-form" action="/user/register" method="POST">
+    
+    <label>Username</label>
+    <input type="text" name="username" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <label>Starting Coins</label>
+    <input type="number" name="coins" value="0" min="0">
+
+    <button type="submit" class="btn-filled">Create Account</button>
+  </form>
+
+  <div class="auth-links">
+    <a href="/user/login">Already have an account? Login</a>
+  </div>
+</div>
+
+<style>
+.auth-container {
+  width: 420px;
+  margin: 80px auto;
+  padding: 25px;
+  background: rgba(0,0,0,0.65);
+  border-radius: 14px;
+  border: 2px solid #220261;
+  backdrop-filter: blur(6px);
+  color: white;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.auth-form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #220261;
+  background: rgba(0,0,0,0.45);
+  color: white;
+}
+
+.btn-filled {
+  background: #8d4dff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-filled:hover {
+  background: #a673ff;
+}
+
+.error-box {
+  background: #d13434;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.auth-links a {
+  color: #8d4dff;
+  text-decoration: none;
+}
+</style>
+  <div class="back-home-wrapper">
+    <a href="/" class="back-home-link">← Back to Home Page</a>
+  </div>

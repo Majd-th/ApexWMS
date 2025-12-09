@@ -1,0 +1,254 @@
+<a href="/admin" class="back-link">← Back to Admin Menu</a>
+
+<div class="admin-page">
+
+  <h2>Item Management</h2>
+
+  <!-- ITEM LIST -->
+  <div class="item-list"><table class="apex-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Subcategory</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% items.forEach(item => { %>
+      <tr>
+        <td><%= item.item_id %></td>
+        <td><%= item.item_name %></td>
+        <td><%= item.category %></td>
+        <td><%= item.subcategory %></td>
+        <td><%= item.description %></td>
+
+        <td>
+          <a class="btn view" href="/api/items/<%= item.item_id %>">View</a>
+          <a class="btn edit" href="/api/items/<%= item.item_id %>/edit">Edit</a>
+
+          <form method="POST" action="/api/items/<%= item.item_id %>/delete" style="display:inline;">
+            <button class="btn delete" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+  </div>
+
+  <hr>
+
+  <!-- CREATE ITEM FORM -->
+  <h3>Create New Item</h3>
+
+  <form action="/api/items" method="POST" class="create-form-row">
+    <div class="field wide">
+      <label>Name</label>
+      <input type="text" name="item_name" required>
+    </div>
+
+    <div class="field">
+      <label>Category</label>
+      <input type="text" name="category" required>
+    </div>
+
+    <div class="field">
+      <label>Subcategory</label>
+      <input type="text" name="subcategory">
+    </div>
+
+    <div class="field small">
+      <label>Legend ID (opt.)</label>
+      <input type="number" name="legend_id" min="1">
+    </div>
+
+    <div class="field small">
+      <label>Damage</label>
+      <input type="number" name="damage" min="0">
+    </div>
+
+    <div class="field">
+      <label>Ammo Type</label>
+      <input type="text" name="ammo_type">
+    </div>
+
+    <div class="field description-field">
+      <label>Description</label>
+      <input type="text" name="description">
+    </div>
+
+    <div class="field button-field">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn create">Create Item</button>
+    </div>
+  </form>
+
+</div>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #5b0bb5;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Outer card with background image  */
+  .admin-page {
+    padding: 20px 25px;
+    border-radius: 12px;
+    background-image: url("/img/w1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+  }
+
+  .admin-page h2,
+  .admin-page h3,
+  .admin-page label {
+    color: #fff;
+  }
+
+  .item-list {
+    overflow-x: auto;
+  }
+
+  .apex-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;              /* spread columns nicely */
+    font-size: 14px;
+  }
+
+  .apex-table th,
+  .apex-table td {
+    border: 1px solid #DA292A;
+    padding: 8px;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  .apex-table th {
+    background: #DA292A;
+    color: #1A1A1A;
+  }
+
+  .apex-table td {
+    background: rgba(15, 15, 15, 0.9);
+    color: white;
+  }
+
+  /* Make description column wider */
+  .apex-table th:nth-child(8),
+  .apex-table td:nth-child(8) {
+    width: 24%;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    transition: 0.2s;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .btn.view  { background: #3f8cff; color: white; }
+  .btn.edit  { background: #ffd23f; color: black; }
+  .btn.delete{ background: #DA292A; color: white; }
+  .btn.create{ background: #4CAF50; color: white; }
+
+  .btn:hover {
+    transform: scale(1.07);
+    filter: brightness(1.05);
+  }
+
+  /* ------------- HORIZONTAL CREATE FORM ------------- */
+  .create-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+    align-items: flex-end;
+  }
+
+  .create-form-row .field {
+    display: flex;
+    flex-direction: column;
+    min-width: 130px;
+  }
+
+  .create-form-row .field.wide {
+    min-width: 180px;
+  }
+
+  .create-form-row .field.small {
+    max-width: 110px;
+  }
+
+  .description-field {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .create-form-row input {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+  }
+
+  .button-field {
+    min-width: 140px;
+  }
+
+  @media (max-width: 1000px) {
+    .apex-table {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .create-form-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .button-field {
+      align-self: flex-start;
+    }
+  }
+  /* table header */
+.apex-table th {
+  background: rgba(4, 52, 14, 0.9);  /* red but slightly see-through */
+  color: #6e6767;
+}
+
+/* table body cells */
+.apex-table td {
+  background: rgba(0, 0, 0, 0.55);     /* 55% opaque instead of solid black */
+  color: #fff;
+}
+
+
+.apex-table th,
+.apex-table td {
+  border: 1px solid rgba(6, 88, 32, 0.7);
+}
+
+</style>

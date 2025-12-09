@@ -1,0 +1,153 @@
+<a href="/api/items/manage" class="back-link">← Back to Item Management</a>
+
+<div class="admin-page">
+  <h2>Edit Item: <%= item.item_name %></h2>
+
+  <!-- Use POST to /api/items/:id/edit (matches your route) -->
+  <form
+    action="/api/items/<%= item.item_id %>/edit"
+    method="POST"
+    class="edit-form"
+  >
+    <div class="field">
+      <label>Item Name</label>
+      <input
+        type="text"
+        name="item_name"
+        value="<%= item.item_name %>"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label>Category</label>
+      <input
+        type="text"
+        name="category"
+        value="<%= item.category %>"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label>Subcategory</label>
+      <input
+        type="text"
+        name="subcategory"
+        value="<%= item.subcategory %>"
+      >
+    </div>
+
+    <div class="field small">
+      <label>Legend ID (optional)</label>
+      <input
+        type="number"
+        name="legend_id"
+        value="<%= item.legend_id || '' %>"
+        min="1"
+      >
+    </div>
+
+    <div class="field small">
+      <label>Damage</label>
+      <input
+        type="number"
+        name="damage"
+        value="<%= item.damage || 0 %>"
+        min="0"
+      >
+    </div>
+
+    <div class="field small">
+      <label>Ammo Type</label>
+      <input
+        type="text"
+        name="ammo_type"
+        value="<%= item.ammo_type || '' %>"
+      >
+    </div>
+
+    <div class="field full">
+      <label>Description</label>
+      <textarea
+        name="description"
+        rows="3"
+      ><%= item.description || '' %></textarea>
+    </div>
+
+    <div class="buttons">
+      <button type="submit" class="btn save">Save Changes</button>
+      <a href="/api/items/manage" class="btn cancel">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<style>
+  .back-link {
+    display:inline-block;
+    margin-bottom:10px;
+    color:#5b0bb5;
+    text-decoration:none;
+    font-size:14px;
+  }
+  .back-link:hover { text-decoration:underline; }
+
+  .admin-page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px 25px;
+    border-radius: 12px;
+    background: rgba(10,10,10,0.92);
+    box-shadow: 0 0 18px rgba(0,0,0,0.7);
+    color: #fff;
+  }
+
+  .edit-form {
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+
+  .field {
+    display:flex;
+    flex-direction:column;
+    flex:1 1 220px;
+  }
+
+  .field.small {
+    flex:0 0 150px;
+  }
+
+  .field.full {
+    flex:1 1 100%;
+  }
+
+  .edit-form input,
+  .edit-form textarea {
+    border-radius:6px;
+    border:none;
+    padding:8px;
+    margin-top:4px;
+  }
+
+  .buttons {
+    margin-top:12px;
+    display:flex;
+    gap:10px;
+  }
+
+  .btn {
+    padding:8px 14px;
+    border-radius:6px;
+    font-weight:bold;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    display:inline-block;
+  }
+
+  .btn.save   { background:#4CAF50; color:#fff; }
+  .btn.cancel { background:#555;    color:#fff; }
+
+  .btn:hover { filter:brightness(1.1); }
+</style>

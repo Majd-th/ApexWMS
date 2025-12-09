@@ -1,0 +1,177 @@
+<!-- ================= HEADER ================= -->
+<header class="main-header">
+  <h1>ApexWMS Control Panel</h1>
+</header>
+
+<!-- ================= PAGE WRAPPER ================= -->
+<div class="page-wrapper">
+
+
+  <!-- =============== DASHBOARD PANEL  =============== -->
+  <div class="dashboard-panel">
+
+    <h2 class="dash-title">PLAYER DASHBOARD</h2>
+    <p class="dash-subtitle">Manage your legends, items, and packs.</p>
+
+    <div class="dash-grid">
+
+      <a class="dash-card" href="/user/legends">
+        <h3>View All Legends</h3>
+        <p>Browse every legend and ability.</p>
+      </a>
+
+      <a class="dash-card" href="/user/items">
+        <h3>My Items</h3>
+        <p>Inspect weapons and skins you own.</p>
+      </a>
+
+      <a class="dash-card" href="/user/packs">
+        <h3>Owned Packs</h3>
+        <p>Open your packs.</p>
+      </a>
+
+      <a class="dash-card" href="/user/packs/store">
+        <h3>Available Packs</h3>
+        <p>Buy packs with coins.</p>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+  <!-- LOGOUT BUTTON  -->
+  <div class="logout-wrapper">
+  <a href="/user/logout" class="logout-btn">Logout</a>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="main-footer">
+  <p>© 2025 ApexWMS • All Rights Reserved</p>
+</footer>
+
+
+<!-- ====================== CSS ====================== -->
+<style>
+/* Background */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-image: url("/img/apex11.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER CENTERED */
+.main-header {
+  text-align: center;
+  padding: 25px 0 5px;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+/* FOOTER CENTERED */
+.main-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-bottom: 25px;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* Full-page flex for centering */
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* LOGOUT BUTTON POSITION  */
+.logout-wrapper {
+  width: 100%;             
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+.logout-btn {
+  padding: 10px 18px;
+  background: #b81b1b;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.25s;
+  filter: drop-shadow(0 0 6px #ff3c3c);
+  border: 1px solid rgba(255, 80, 80, 0.4);
+}
+
+.logout-btn:hover {
+  background: #ff3c3c;
+  filter: drop-shadow(0 0 12px #ff3c3c);
+  transform: scale(1.05);                     
+}
+
+
+/* =============== DASHBOARD PANEL =============== */
+.dashboard-panel {
+  width: 750px;   /* 🔥 smaller width to match your screenshot */
+  background: rgba(10, 10, 10, 0.50);
+  backdrop-filter: blur(6px);
+  border-radius: 16px;
+  padding: 35px 30px;
+  border: 1px solid rgba(218, 41, 42, 0.4);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+  text-align: center;
+}
+
+.dash-title {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.dash-subtitle {
+  margin-top: 5px;
+  opacity: 0.85;
+}
+
+/* Dashboard cards */
+.dash-grid {
+  margin-top: 35px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 20px;
+}
+
+.dash-card {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-decoration: none;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: 0.18s;
+}
+
+.dash-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(218, 41, 42, 0.8);
+  box-shadow: 0 0 20px rgba(218, 41, 42, 0.45);
+}
+
+.dash-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.dash-card p {
+  margin-top: 5px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+</style>

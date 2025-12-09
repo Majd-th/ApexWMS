@@ -1,44 +1,102 @@
-# 🧩 ApexWMS (Apex Legends Pack Management System)
+ApexWMS — Apex Legends Pack Management System
+Overview
 
-## 📖 Overview
-ApexWMS is a backend application built using **Node.js** and **Express.js** that simulates an Apex Legends–style inventory and pack management system.  
-It allows administrators to create packs, items, and legends, while users can own packs and receive items as rewards.  
-The project demonstrates the implementation of a **layered architecture** with full validation, error handling, and SQL-based persistence.
+ApexWMS is a full-stack web application built with Node.js, Express.js, EJS, and PostgreSQL.
+It simulates an Apex Legends–inspired system where:
 
----
+Administrators manage packs, items, legends, and users
 
-## 🧱 Project Architecture
+Players can register, log in, buy packs, open packs, and view earned items
 
-The project follows a **modular MVC (Model–View–Controller)** pattern with a multi-layer structure:
+The project demonstrates layered backend architecture, frontend templating, secure authentication, SQL persistence, validation, and clean error-handling patterns.
 
 config/
-└── db.js # Database connection (PostgreSQL + dotenv)
+└── db.js                 # PostgreSQL connection
+
 src/
-├── controller/ # Handles HTTP requests and responses
+├── controllers/           # Controllers (request handling)
 ├── domain/
-│ ├── entities/ # Data structures representing DB records
-│ ├── DTO/ # Data Transfer Objects (for clean API responses)
-│ └── Repositories/ # SQL queries and data persistence
-├── middleware/ # (optional) auth / custom middleware
-├── routes/ # Express routers for each entity
-├── service/ # Business logic between controller and repo
-├── validators/ # Express-validator rules for all inputs
-├── schema/ # Database schema (SQL)
-├── app.js # Main Express app configuration
-└── server.js # Entry point (nodemon runs this)
-.env # Environment configuration
+│   ├── entities/         # Database entities
+│   ├── dto/              # Data Transfer Objects
+│   └── repositories/     # SQL queries and persistence
+├── middleware/           # Authentication and custom middleware
+├── routes/               # Express routers (API + Views)
+├── services/              # Business logic layer
+├── validators/           # Input validation rules
+├── views/                # EJS templates (Admin + User UI)
+├── schema/               # SQL schema
+├── app.js                # Express app configuration
+└── server.js             # Application entry point
 
----
+.env                      # Environment variables
+public
+|-----img                    # for imgs used 
 
-## ⚙️ Setup Instructions
+This architecture ensures separation of concerns:
 
-### 1️⃣ Install Dependencies
-```bash
+Controllers handle HTTP requests
+
+Services perform logic
+
+Repositories interact with the database
+
+DTOs ensure clean API responses
+
+EJS views handle the frontend presentation
+
+Frontend (EJS) Overview
+
+ApexWMS includes a full frontend built with EJS, styled pages, and complete admin/user UI flows.
+
+Admin Frontend Pages
+
+Admins access a dashboard where they can:
+
+Manage users
+
+Manage items
+
+Manage legends and abilities
+
+Manage packs
+
+Manage pack rewards (drop rates, items, legends)
+
+Each page uses:
+
+Reusable EJS components
+
+Styled tables
+
+Admin buttons for CRUD operations
+
+Forms with validation
+
+Navigation structure
+
+User Frontend Pages
+
+Users have a fully functional interface:
+
+Login & registration pages
+
+Player dashboard (home)
+
+Legends viewer (all legends and details)
+
+Items viewer
+
+Pack store (buy packs)
+
+User pack inventory
+
+Pack opening animation/result page
+        
+Setup Instructions
+1. Install dependencies
 npm install
-2️⃣ Configure Environment Variables
 
-Create a .env file in the root directory:
-
+2. Create a .env file
 PGHOST=localhost
 PGUSER=postgres
 PGPASSWORD=yourpassword
@@ -46,66 +104,113 @@ PGDATABASE=apex_db
 PGPORT=5432
 PORT=3000
 
-3️⃣ Start Server
+3. Start the server
 npm run dev
 
-Or, if running manually:
+
+or
+
 node src/server.js
 
+Technologies Used
 
-🧩 Technologies Used
+Node.js
 
+Express.js
 
-Node.js – JavaScript runtime environment
+EJS (frontend templating)
 
+PostgreSQL
 
-Express.js – Web framework for APIs
+Express-Validator
 
+bcrypt (password hashing)
 
-Express-Validator – Input validation and sanitization
+dotenv
 
+nodemon
+Database Schema Overview
 
-PostgreSQL (Native SQL) – Relational database for persistence
+ApexWMS uses 9 tables:
+| Table        | Purpose                               |
+| ------------ | ------------------------------------- |
+| users        | Player accounts, coins, password hash |
+| admins       | Admin access                          |
+| legends      | Apex Legends characters               |
+| abilities    | Passive, tactical, ultimate abilities |
+| items        | Weapons, heirlooms, cosmetics         |
+| packs        | Buyable loot boxes                    |
+| pack_rewards | Reward pool for each pack             |
+| user_packs   | Packs owned by each user              |
+| user_items   | Items earned by users                 |
 
+Relationships
 
-dotenv – Environment variable management
+legends → abilities
 
-
-nodemon – Auto-reload during development
-
-
-
-🧾 Database Schema Overview
-The database consists of 9 interconnected tables:
-TableDescriptionusersStores player info, email, hashed password, and coins.adminsManages admin access (1 default admin).legendsApex characters (name, role, description).abilitiesEach legend’s 3 abilities: Passive, Tactical, Ultimate.itemsWeapons, heirlooms, and equipment.packsLoot boxes users can obtain.pack_rewardsItems or legends available inside packs.user_packsTracks packs owned by each user.user_itemsTracks individual items obtained by each user.
-✅ Relationships:
-
-
-legends → abilities → items (via legend_id)
-
-
-packs → pack_rewards → items or legends
-
+packs → pack_rewards → items/legends
 
 users → user_packs → user_items
 
+API Endpoints Summary (Backend)
 
+(All prefixed with /api/)
 
-🚀 API Endpoints Summary
-All routes are prefixed with /api/.
-EntityMethodEndpointDescriptionUsersGET/api/usersList all usersGET/api/users/:idGet user by IDPOST/api/usersCreate new userPUT/api/users/:idUpdate user infoDELETE/api/users/:idDelete userLegendsGET/api/legendsList all legendsPOST/api/legendsCreate new legendItemsGET/api/itemsList all itemsPOST/api/itemsCreate itemGET/api/items/:idGet item by IDPacksGET/api/packsList all packsPOST/api/packsCreate new packPack RewardsGET/api/packRewards/pack/:pack_idGet rewards of a packUser ItemsGET/api/useritems/user/:user_idList user’s itemsUser PacksGET/api/userpacks/user/:user_idList user’s packs
-All routes are validated with express-validator, ensuring correct input before database interaction.
+Users
+GET    /api/users
+GET    /api/users/:id
+POST   /api/users
+PUT    /api/users/:id
+DELETE /api/users/:id
 
-🧪 Testing with Postman
-1️⃣ Launch the Server
-Ensure npm run dev is running and Server running on port 3000 appears in the console.
-2️⃣ Open Postman
-Import the Postman Collection JSON (included in your workspace).
-3️⃣ Test Example
+Legends
+GET  /api/legends
+POST /api/legends
+
+Items
+GET  /api/items
+POST /api/items
+GET  /api/items/:id
+
+Packs
+GET  /api/packs
+POST /api/packs
+
+Pack Rewards
+GET  /api/packRewards/pack/:pack_id
+POST /api/packRewards
+
+Admin & User View Routes (Frontend)
+Admin pages include:
+/api/users/manage
+/api/items/manage
+/api/legends/manage
+/api/packs/manage
+/api/packRewards/manage/:pack_id
+
+User pages include:
+/user/login
+/user/register
+/user/home
+/user/legends
+/user/items
+/user/packs/store
+/user/packs
+
+Testing With Postman
+
+Start the server
+
+Open Postman
+
+Try:
+
 GET http://localhost:3000/api/users
-✅ Returns all registered users from the database.
+
+
+Example POST:
+
 POST http://localhost:3000/api/items
-Body (JSON):
 {
   "item_name": "Wingman",
   "category": "Weapon",
@@ -116,74 +221,55 @@ Body (JSON):
   "description": "Precision revolver pistol."
 }
 
+Error Handling
 
-🧰 Debugging Techniques Used
-Throughout development, several console.log() statements were added to trace flow:
-Log ExamplePurposeconsole.log("Repo loading...")Confirms repository initialization before the server starts.console.log("Service loading...")Ensures service layer connected properly.console.log("✅ <Users>Routes loaded")Confirms routes were successfully mounted.console.log("Server running on port 3000")Verifies server startup.
-These helped isolate issues (such as missing imports or invalid SQL queries) quickly during testing.
+Errors are managed consistently:
 
-⚠️ Error Handling
-All exceptions propagate Repository → Service → Controller:
+Repository throws SQL or data errors
 
+Service layer translates them
 
-Repository throws DB or validation errors.
+Controller returns an appropriate HTTP response
 
+Status Codes:
 
-Service wraps them with descriptive messages.
+400: Validation errors
 
+404: Resource not found
 
-Controller catches and returns appropriate HTTP status:
+500: Server error
 
+User-facing EJS pages also display friendly messages.
 
-400 → Validation error
+Validation (express-validator)
 
+Every API endpoint enforces strict validation:
 
-404 → Not found
-
-
-500 → Internal server error
-
-
-
+body("item_name")
+  .isString()
+  .isLength({ min: 1, max: 100 })
 
 
-🧾 Validation (Express-Validator)
-Every route input is checked before hitting the database.
-Example:
-body('item_name').isString().isLength({ min: 1, max: 100 })
-.withMessage('Item name is required and must be less than 100 characters');
+This ensures safe and predictable database operations.
 
+Extending the System
 
-🧩 How to Extend
-You can easily add new entities (like user_abilities or match_history) by following the same structure:
+To add new features:
 
+Create Entity
 
-Create new Entity, DTO, Repository, Service, and Controller files.
+Create Repository
 
+Create Service
 
-Add a corresponding Route and Validator.
+Create Controller
 
+Add Routes
 
-Register the new router in app.js.
+Add Validators
 
+Create EJS pages (if needed)
 
+Register router in app.js
 
-📦 Version
-v1.0.0 – Final Submission 
-Includes:
-
-
-Complete layered backend architecture
-
-
-Debugging and validation logs
-
-
-SQL-based data persistence
-
-
-Postman workspace for testing
-
-
-Fully documented and commented source code
-
+The modular architecture makes expansion straightforward.

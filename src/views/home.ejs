@@ -1,0 +1,55 @@
+<!-- example home.ejs layout inside main.container -->
+<section class="home-hero">
+  <h2>Welcome to Apex Warehouse System</h2>
+  <p> --</p>
+
+  <div class="home-buttons">
+    <a href="/login/user" class="home-btn">User Login</a>
+    <a href="/login/admin" class="home-btn">Admin Login</a>
+    <a href="/register"    class="home-btn">Create Account</a>
+  </div>
+</section>
+
+<style>
+  body main.container {
+    padding: 30px 40px;
+  }
+
+  .home-hero {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .home-buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .home-btn {
+    min-width: 180px;
+    padding: 16px 30px;
+    border-radius: 10px;
+    border: 2px solid #220261;   
+    background: #430561;         
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.8);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .home-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(34, 2, 97, 0.9);
+    border-color: #5d34ff;
+    background: #beaede;
+  }
+</style>

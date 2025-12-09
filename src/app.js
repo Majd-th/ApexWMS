@@ -1,10 +1,10 @@
-// Import Express framework to build and manage the backend API
+// src/app.js
 import express from "express";
-
-// Import middleware to handle JSON request bodies
+import session from "express-session";
 import bodyParser from "body-parser";
+import methodOverride from "method-override";
 
-// Import all route files (each one handles a specific part of the app)
+// API routes...
 import { abilitiesRoutes } from "./routes/AbilitiesRoutes.js";
 import { adminsRoutes } from "./routes/AdminsRoutes.js";
 import { itemsRoutes } from "./routes/ItemsRoutes.js";
@@ -15,24 +15,55 @@ import { userItemsRoutes } from "./routes/UserItemsRoutes.js";
 import { userPacksRoutes } from "./routes/UserPacksRoutes.js";
 import { userRoutes } from "./routes/UserRoutes.js";
 
-// Create an instance of an Express application
+// UI routes
+import userViewRoutes from "./routes/UserViewRoutes.js";
+import adminViewRoutes from "./routes/AdminViewRoutes.js";
+
+import { errorHandler } from "./middlewares/errorHandler.js";
+
 const app = express();
 
-// Middleware setup
-// This line tells Express to automatically parse incoming JSON requests
+// ------- SESSION (must be before routes) -------
+app.use(
+  session({
+    secret: "supersecretkey123",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+
+// 🔥 body parsers FIRST
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Register all API routes with prefixes (each route handles specific logic)
-app.use("/api/abilities", abilitiesRoutes);       // Routes for legends' abilities
-app.use("/api/admins", adminsRoutes);             // Routes for admin operations
-app.use("/api/items", itemsRoutes);               // Routes for weapons and items
-app.use("/api/legends", legendsRoutes);           // Routes for legends and their details
-app.use("/api/packs", packRoutes);                // Routes for packs
-app.use("/api/packRewards", packRewardRoutes);    // Routes for pack rewards (what’s inside packs)
-app.use("/api/useritems", userItemsRoutes);       // Routes for items owned by users
-app.use("/api/userpacks", userPacksRoutes);       // Routes for packs owned/opened by users
-app.use("/api/users", userRoutes);                // Routes for user accounts
+// 🔥 static files
+app.use(express.static("public"));
 
-// Export the app so that server.js can import and start it
+// 🔥 NOW mount admin UI routes
+app.use("/admin", adminViewRoutes);
+
+app.use("/user", userViewRoutes);
+app.use("/api/admins", adminsRoutes);
+
+
+// ------- OTHER MIDDLEWARE -------
+app.use(methodOverride("_method"));
+
+
+// ------- API ROUTES -------
+app.use("/api/abilities", abilitiesRoutes);
+app.use("/api/items", itemsRoutes);
+app.use("/api/legends", legendsRoutes);
+app.use("/api/packs", packRoutes);
+app.use("/api/packRewards", packRewardRoutes);
+app.use("/api/useritems", userItemsRoutes);
+app.use("/api/userpacks", userPacksRoutes);
+app.use("/api/users", userRoutes);
+
+
+
+// ------- ERROR HANDLER -------
+app.use(errorHandler);
+
 export default app;
-

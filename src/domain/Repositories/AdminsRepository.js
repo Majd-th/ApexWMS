@@ -13,23 +13,15 @@ export class AdminsRepository {
 
   // 🟢 CREATE — Insert a new admin record into the database
   async save(username, email, passwordHash) {
-    const sql = `
-      INSERT INTO admins (username, email, password_hash)
-      VALUES ($1, $2, $3)
-      RETURNING *;  -- Returns the inserted row
-    `;
-
-    // Parameters:
-    // username (string): admin’s chosen username
-    // email (string): admin’s email address
-    // passwordHash (string): hashed password for security
-    const values = [username, email, passwordHash];
-
-    // Execute the query and return the created admin as an Admins entity
-    const { rows } = await pool.query(sql, values);
-    return new Admins(rows[0]); // Convert DB row into Admins entity
-  }
-
+  const sql = `
+    INSERT INTO admins (username, email, password_hash)
+    VALUES ($1, $2, $3)
+    RETURNING *;
+  `;
+  const values = [username, email, passwordHash];
+  const { rows } = await pool.query(sql, values);
+  return new Admins(rows[0]);
+}
   // 🟡 UPDATE — Modify an existing admin's username or email
   async update(admin_id, { username, email }) {
     const sql = `
@@ -81,11 +73,16 @@ export class AdminsRepository {
 
     // If found, wrap it in an Admins entity; else return null
     return rows[0] ? new Admins(rows[0]) : null;
-  }
-  async findBYname(){
-    const sql='Select * from Admins where username = $1';
-    const {rows }=await pool.query(sql,[username]);
-    return rows[0] ?new Admins (rows[0] ): null; 
+  }// 🔍 READ — Find admin by username (
+async findByUsername(username) {
+  const sql = `
+    SELECT *
+    FROM admins
+    WHERE username = $1
+    LIMIT 1;
+  `;
+  const { rows } = await pool.query(sql, [username]);
+  return rows[0] ? new Admins(rows[0]) : null;
+}
 
-  }
 }

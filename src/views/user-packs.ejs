@@ -1,0 +1,80 @@
+<style>
+  body {
+    background: url("/img/img31.png") center/cover fixed;
+    color: white;
+    font-family: Arial;
+    padding: 20px;
+  }
+
+  .packs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 180px);
+    gap: 25px;
+    justify-content: center;
+  }
+
+  .pack-card {
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  button {
+    border: none;
+    padding: 8px;
+    width: 100%;
+    background: #DA292A;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+</style>
+<a href="/user/home" class="back-btn">← Back to Dashboard</a>
+
+<style>
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 15px;
+  background: #DA292A;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 0 5px black;
+}
+.back-btn:hover {
+  background: #b71f20;
+}
+</style>
+
+                      <h1>   🎁 My Packs</h1>
+                    <style>
+h1 {
+  text-align: center;
+  margin-top: 40px;
+}
+</style>
+
+<div class="packs-grid">
+  <% packs.forEach(p => { %>
+
+    <div class="pack-card">
+<img src="/img/packs/<%= p.imageFile %>" width="120">
+
+      <h3>Pack <%= p.pack_id %></h3>
+
+      <% if (!p.opened) { %>
+        <form action="/user/packs/open/<%= p.pack_id %>" method="POST">
+          <button type="submit">Open Pack</button>
+        </form>
+      <% } else { %>
+        <p style="color:#28a745;">Opened</p>
+      <% } %>
+    </div>
+
+  <% }) %>
+</div>

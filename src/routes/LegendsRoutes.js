@@ -1,25 +1,48 @@
+import { Router } from "express";
+import { LegendsRepository } from "../domain/repositories/LegendsRepository.js";
+import { LegendsService } from "../services/LegendsService.js";
+import { LegendsController } from "../controllers/LegendsController.js";
+import { idParam, upsertLegends } from "../validators/LegendsValidators.js";
 
-// src/routes/LegendsRoutes.js
-import { Router } from "express";                               // Express router setup
-import { AbilitiesRepository } from "../domain/Repositories/AbilitiesRepository.js"; // Needed for linked logic
-import { LegendsRepository } from "../domain/Repositories/LegendsRepository.js";     // Legends data source
-import { LegendsService } from "../service/LegendsService.js";                     // Combines logic between repos
-import { LegendsController } from "../controller/LegendsController.js";             // Manages HTTP endpoints
-import { idParam, upsertLegends } from "../validators/LegendsValidators.js";        // Validation rules
+const repo = new LegendsRepository();
+const service = new LegendsService(repo);
+const controller = new LegendsController(service);
 
-export const legendsRoutes = Router();                          // Named export (imported in app.js)
+export const legendsRoutes = Router();
 
-const legendsRepo = new LegendsRepository();                    // Legends repository instance
-const abilitiesRepo = new AbilitiesRepository();                // Abilities repository instance
+/* ======================================================
+   ADMIN HTML ROUTES (STATIC FIRST!)
+   ====================================================== */
+/* ---------- ADMIN HTML ROUTES ---------- */
+legendsRoutes.get("/manage", controller.managePage);
 
-const legendsService = new LegendsService(legendsRepo, abilitiesRepo); // Combines both into logic layer
-const legendsController = new LegendsController(legendsService);       // Controller setup
+legendsRoutes.post("/manage", upsertLegends, controller.createFromForm);
 
-// Define API endpoints for Legends
-legendsRoutes.get("/", legendsController.listLegends.bind(legendsController));           // GET all legends
-legendsRoutes.get("/:legend_id", idParam, legendsController.getLegendById.bind(legendsController)); // GET one legend
-legendsRoutes.post("/", upsertLegends, legendsController.createLegend.bind(legendsController));     // POST add legend
-legendsRoutes.put("/:legend_id", [...idParam, ...upsertLegends], legendsController.updateLegend.bind(legendsController)); // PUT edit legend
-legendsRoutes.delete("/:legend_id", idParam, legendsController.deleteLegend.bind(legendsController)); // DELETE legend
+legendsRoutes.post("/:legend_id/delete", idParam, controller.deleteFromForm);
 
-//console.log("✅ <Legends>Routes loaded successfully");           // Log confirming route file loaded
+legendsRoutes.get("/:legend_id/edit", idParam, controller.editPage);
+
+legendsRoutes.post("/:legend_id/edit", [...idParam, ...upsertLegends], controller.updateFromForm);
+
+/* ======================================================
+   JSON API ROUTES (DYNAMIC LAST!)
+   ====================================================== */
+
+// GET all legends
+legendsRoutes.get("/", controller.listLegends);
+
+// GET legend by ID
+legendsRoutes.get("/:legend_id", idParam, controller.getLegendById);
+
+// CREATE legend
+legendsRoutes.post("/", upsertLegends, controller.createLegend);
+
+// UPDATE legend
+legendsRoutes.put(
+  "/:legend_id",
+  [...idParam, ...upsertLegends],
+  controller.updateLegend
+);
+
+// DELETE legend
+legendsRoutes.delete("/:legend_id", idParam, controller.deleteLegend);

@@ -20,17 +20,41 @@ export class PackRewardRepository {
     return true;
   }
 
-  // 🔍 Retrieves all rewards for a given pack ID
-  async findByPack(pack_id) {
-    const sql = `
-      SELECT reward_id, pack_id, item_id, legend_id, drop_rate
-      FROM pack_rewards
-      WHERE pack_id = $1
-      ORDER BY reward_id DESC;
-    `;
-    const { rows } = await pool.query(sql, [pack_id]);
-    return rows;
-  }
+  
+ // 🔍 Retrieves all rewards for a given pack ID with item/legend info
+async findByPack(pack_id) {
+  const sql = `
+    SELECT 
+      pr.reward_id,
+      pr.pack_id,
+      pr.item_id,
+      pr.legend_id,
+      pr.drop_rate,
+
+      -- ITEM INFO
+      i.item_name,
+      i.description,
+      i.category,
+      
+      -- AUTO IMAGE FOR ITEMS (IMPORTANT)
+      LOWER(REPLACE(i.item_name, ' ', '_')) || '.png' AS item_image
+
+      -- If you add legend images:
+      -- l.legend_name,
+      -- LOWER(REPLACE(l.legend_name, ' ', '_')) || '.png' AS legend_image
+
+    FROM pack_rewards pr
+    LEFT JOIN items i ON pr.item_id = i.item_id
+    -- LEFT JOIN legends l ON pr.legend_id = l.legend_id  (future feature)
+
+    WHERE pr.pack_id = $1
+    ORDER BY pr.reward_id DESC;
+  `;
+
+  const { rows } = await pool.query(sql, [pack_id]);
+  return rows;
+}
+
 }
 
 /*

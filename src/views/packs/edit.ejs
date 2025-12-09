@@ -1,0 +1,22 @@
+<h2>Edit Pack: <%= pack.pack_name %></h2>
+
+<form
+  action="/api/packs/<%= pack.pack_id %>/edit"
+  method="POST"
+  class="create-form"
+>
+  <label>Pack Name:</label>
+  <input type="text" name="pack_name" value="<%= pack.pack_name %>" required>
+
+  <label>Price (coins):</label>
+  <input type="number" name="price" min="0" value="<%= pack.price %>" required>
+
+  <label>Description:</label>
+  <textarea name="description" rows="3"><%= pack.description %></textarea>
+
+  <button type="submit" class="btn create">Save Changes</button>
+</form>
+
+<p style="margin-top:20px;">
+  <a href="/api/packs/manage" class="btn view">⬅ Back to Pack List</a>
+</p>

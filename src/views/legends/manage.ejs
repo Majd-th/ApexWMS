@@ -1,0 +1,213 @@
+<a href="/admin" class="back-link">← Back to Admin Menu</a>
+
+<div class="admin-page">
+  <h2>Legend Management</h2>
+
+  <!-- LEGENDS TABLE -->
+  <div class="legend-list">
+    <table class="apex-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% legends.forEach(legend => { %>
+          <tr>
+            <!-- 👇 correct field names -->
+            <td><%= legend.legend_id %></td>
+            <td><%= legend.name %></td>
+            <td><%= legend.role %></td>
+            <td class="description-cell"><%= legend.description %></td>
+
+            <td>
+              <!-- Go to abilities manage page -->
+              <a class="btn view"
+                 href="/api/abilities/manage/<%= legend.legend_id %>">
+                Abilities
+              </a>
+
+              <!-- Edit: still hits JSON endpoint for now -->
+              <a class="btn edit"
+   href="/api/legends/<%= legend.legend_id %>/edit">
+  Edit
+</a>
+
+
+              <!-- Delete legend (same behaviour as before) -->
+              <form method="POST"
+                    action="/api/legends/<%= legend.legend_id %>/delete"
+                    style="display:inline;">
+                <button type="submit" class="btn delete">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CREATE NEW LEGEND -->
+  <h3>Create New Legend</h3>
+
+  <form class="create-form-row"
+        action="/api/legends/manage"
+        method="POST">
+
+    <div class="field">
+      <label>Name</label>
+      <!-- 👇 keep these names EXACTLY like this -->
+      <input type="text" name="name" required />
+    </div>
+
+    <div class="field small">
+      <label>Role</label>
+      <input type="text" name="role" placeholder="Offense / Defense / Recon / Support" required />
+    </div>
+
+    <div class="field description-field">
+      <label>Description</label>
+      <input type="text" name="description" required />
+    </div>
+
+    <div class="field button-field">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn create">Create Legend</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #5b0bb5;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  /* main card + background (change image name if needed) */
+  .admin-page {
+    padding: 30px 35px 40px;
+    border-radius: 12px;
+    background-image: url("/img/legends.jpg"); /* your legends background */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+    min-height: 650px;
+  }
+
+  .admin-page h2,
+  .admin-page h3,
+  .admin-page label {
+    color: #fff;
+  }
+
+  .legend-list {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  .apex-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .apex-table th,
+  .apex-table td {
+    border: 1px solid rgba(218, 41, 42, 0.7);
+    padding: 14px;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .apex-table th {
+    background: rgba(218, 41, 42, 0.9);
+    color: #1A1A1A;
+  }
+
+  .apex-table td {
+    background: rgba(0, 0, 0, 0.78); /* semi-transparent so image shows */
+    color: #fff;
+  }
+
+  .description-cell {
+    text-align: left;
+    max-width: 600px;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .btn {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+    transition: 0.2s;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn.view   { background: #3f8cff; color: white; }
+  .btn.edit   { background: #ffd23f; color: black; }
+  .btn.delete { background: #DA292A; color: white; }
+  .btn.create { background: #4CAF50; color: white; }
+  .btn:hover {
+    transform: scale(1.07);
+    filter: brightness(1.05);
+  }
+
+  /* horizontal create form */
+  .create-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 18px;
+    align-items: flex-end;
+  }
+
+  .create-form-row .field {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+  }
+
+  .create-form-row .field.small {
+    max-width: 220px;
+  }
+
+  .create-form-row .description-field {
+    flex: 2;
+    min-width: 320px;
+  }
+
+  .create-form-row input {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+  }
+
+  .button-field {
+    min-width: 160px;
+  }
+
+  @media (max-width: 900px) {
+    .create-form-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .button-field {
+      align-self: flex-start;
+    }
+  }
+</style>

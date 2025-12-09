@@ -1,0 +1,89 @@
+<h2>Admin Login</h2>
+<p>Admins only. Please log in to manage the system.</p>
+
+<% if (typeof error !== "undefined" && error) { %>
+  <p style="color:red; font-weight:bold;"><%= error %></p>
+<% } %>
+
+<form action="/admin/login" method="POST">
+  <label>Username</label>
+  <input type="text" name="username" required>
+
+  <label>Password</label>
+  <input type="password" name="password" required>
+
+  <button type="submit">Login</button>
+</form>
+<style>
+  
+/* Background */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-image: url("/img/admins.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER CENTERED */
+.main-header {
+  text-align: center;
+  padding: 25px 0 5px;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+/* FOOTER CENTERED */
+.main-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-bottom: 25px;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* Full-page flex for centering */
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* LOGOUT BUTTON POSITION  */
+.logout-wrapper {
+  width: 100%;             
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+.logout-btn {
+  padding: 10px 18px;
+  background: #b81b1b;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.25s;
+  filter: drop-shadow(0 0 6px #ff3c3c);
+  border: 1px solid rgba(255, 80, 80, 0.4);
+}
+
+.logout-btn:hover {
+  background: #ff3c3c;
+  filter: drop-shadow(0 0 12px #ff3c3c);
+  transform: scale(1.05);                     
+}
+
+
+</style>
+  <div class="back-home-wrapper">
+    <a href="/" class="back-home-link">← Back to Home Page</a>
+  </div>
+  

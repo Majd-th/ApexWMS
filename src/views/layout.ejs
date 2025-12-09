@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title || "ApexWMS" %></title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+
+      /* 🔥 Apex background image */
+      background-image: url("/img/apex.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    header,
+    footer {
+      background: #beaede;
+      padding: 15px 25px;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+    }
+
+   
+    main.container {
+      flex: 1;
+      width: 96%;
+      max-width: 1800px;
+      margin: 40px auto;
+      padding: 0;            
+      border-radius: 0;
+      background: transparent; 
+      box-shadow: none;
+    }
+
+    /* back-to-admin button (kept) */
+    .admin-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #DA292A;
+      background: rgba(97, 48, 48, 0.65);
+      color: #fff;
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.15s transform ease, 0.15s box-shadow ease, 0.15s background-color ease;
+    }
+
+    .admin-back:hover {
+      background-color: #DA292A;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <%- include("partials/header") %>
+
+  <!-- PAGE CONTENT -->
+  <main class="container">
+    <%- body %>
+  </main>
+
+  <!-- FOOTER -->
+  <%- include("partials/footer") %>
+</body>
+</html>

@@ -1,20 +1,28 @@
-import { Router } from "express";                               // Express Router import
-import { ItemsRepository } from "../domain/Repositories/ItemsRepository.js";   // DB access
-import { ItemsService } from "../service/ItemsService.js";                     // Logic layer
-import { ItemsController } from "../controller/ItemsController.js";            // HTTP layer
-import { idParam, upsertItems } from "../validators/ItemsValidators.js";       // Validation
+import { Router } from "express";
+import { ItemsRepository } from "../domain/repositories/ItemsRepository.js";
+import { ItemsService } from "../services/ItemsService.js";
+import { ItemsController } from "../controllers/ItemsController.js";
+import { idParam, upsertItems } from "../validators/ItemsValidators.js";
 
-export const itemsRoutes = Router();                            // Router for /api/items
+const repo = new ItemsRepository();
+const service = new ItemsService(repo);
+const controller = new ItemsController(service);
 
-const repo = new ItemsRepository();                             // Repository instance
-const service = new ItemsService(repo);                         // Service connects logic
-const controller = new ItemsController(service);                 // Controller handles API
+export const itemsRoutes = Router();
 
-// Define endpoints
-itemsRoutes.get("/", controller.listItems.bind(controller));     // GET all items
-itemsRoutes.get("/:item_id", idParam, controller.getItemById.bind(controller)); // GET one item by ID
-itemsRoutes.post("/", upsertItems, controller.createItem.bind(controller));     // POST add item
-itemsRoutes.put("/:item_id", [...idParam, ...upsertItems], controller.updateItem.bind(controller)); // PUT update item
-itemsRoutes.delete("/:item_id", idParam, controller.deleteItem.bind(controller)); // DELETE item
+// ========================
+// ADMIN GUI ROUTES (STATIC FIRST!!)
+// ========================
+itemsRoutes.get("/manage", controller.renderManagePage);
+itemsRoutes.get("/:item_id/edit", controller.renderEditPage);
+itemsRoutes.post("/:item_id/edit", controller.updateFromView);
+itemsRoutes.post("/:item_id/delete", controller.deleteFromView);
 
-//console.log("✅ <Items>Routes loaded");                          // Confirms routes are registered
+// ========================
+// JSON API ROUTES (DYNAMIC AFTER)
+// ========================
+itemsRoutes.get("/", controller.listItems);
+itemsRoutes.get("/:item_id", idParam, controller.getItemById);
+itemsRoutes.post("/", upsertItems, controller.createItem);
+itemsRoutes.put("/:item_id", [...idParam, ...upsertItems], controller.updateItem);
+itemsRoutes.delete("/:item_id", idParam, controller.deleteItem);
